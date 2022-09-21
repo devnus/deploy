@@ -1,0 +1,44 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: istiocontrolplane
+spec:
+  profile: default
+  components:
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+      k8s:
+        hpaSpec:
+          minReplicas: 2
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
+        hpaSpec:
+          minReplicas: 2
+    pilot:
+      enabled: true
+      k8s:
+        hpaSpec:
+          minReplicas: 2
+  values:
+    sidecarInjectorWebhook:
+      rewriteAppHTTPProbe: true
+    gateways:
+      istio-ingressgateway:
+        serviceAnnotations:
+          service.beta.kubernetes.io/aws-load-balancer-type: "nlb" # clb아닌 nlb 사용
+            #service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+  meshConfig:
+    enableTracing: true
+    defaultConfig:
+      holdApplicationUntilProxyStarts: true
+      tracing:
+        zipkin: # zipkin설정
+          address: zipkin.istio-system:9411
+        sampling: 100.0
+    accessLogFile: /dev/stdout
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY

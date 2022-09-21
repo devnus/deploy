@@ -11,47 +11,29 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "af13e25e0bf784b9d980f772393690ae-912693386.ap-northeast-2.elb.amazonaws.com" # istio gateway 경로
+    - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
     - "api.belloga.com" # api endpoint
-    - "grafana.belloga.com" # grafana
---- # 그라파나용 게이트웨이
+    - "zipkin.belloga.com"
+--- # zipkin용 게이트웨이
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: belloga-grafana
+  name: belloga-zipkin
 spec:
   hosts:
-  - "grafana.belloga.com" # grafana endpoint
+  - "zipkin.belloga.com" # endpoint
   gateways:
   - belloga-gateway
   http:
-
   - match:
     - uri:
-        prefix: /kiali
+        prefix: /zipkin
     route:
     - destination:
-        host: kiali.istio-system.svc.cluster.local
+        host: zipkin.istio-system.svc.cluster.local
         port:
-          number: 20001
+          number: 9411
 
-  - match:
-    - uri:
-        prefix: /jaeger
-    route:
-    - destination:
-        host: tracing.istio-system.svc.cluster.local
-        port:
-          number: 80
-
-  - match:
-    - uri:
-        prefix: /
-    route:
-    - destination:
-        host: grafana.istio-system.svc.cluster.local
-        port:
-          number: 3000
 --- # api gateway
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -59,7 +41,7 @@ metadata:
   name: belloga-api
 spec:
   hosts:
-  - "af13e25e0bf784b9d980f772393690ae-912693386.ap-northeast-2.elb.amazonaws.com" # istio gateway 경로
+  - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
   - "api.belloga.com" # api endpoint
   #- "*"
   gateways:
@@ -117,3 +99,4 @@ spec:
         host: raw-data-service
         port:
           number: 8080
+
