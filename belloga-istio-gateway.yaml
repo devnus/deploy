@@ -85,6 +85,8 @@ spec:
         prefix: /api/stemp
     - uri:
         prefix: /api/temp-point
+    - uri:
+        prefix: /api/gift
     route:
     - destination:
         host: point-service
@@ -94,6 +96,8 @@ spec:
   - match:
     - uri:
         prefix: /api/raw-data
+    - uri:
+        prefix: /api/project
     route:
     - destination:
         host: raw-data-service
