@@ -7,6 +7,7 @@ metadata:
 spec:
   hosts:
     - "*.ap-northeast-2.amazonaws.com"
+    - "openapi.naver.com"
   location: MESH_EXTERNAL
   ports:
     - number: 443
