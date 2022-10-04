@@ -6,14 +6,14 @@ spec:
   selector:
     istio: ingressgateway # use istio default controller
   servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
-    - "api.belloga.com" # api endpoint
-    - "zipkin.belloga.com"
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
+        - "api.belloga.com" # api endpoint
+        - "zipkin.belloga.com"
 --- # zipkin용 게이트웨이
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -21,18 +21,18 @@ metadata:
   name: belloga-zipkin
 spec:
   hosts:
-  - "zipkin.belloga.com" # endpoint
+    - "zipkin.belloga.com" # endpoint
   gateways:
-  - belloga-gateway
+    - belloga-gateway
   http:
-  - match:
-    - uri:
-        prefix: /zipkin
-    route:
-    - destination:
-        host: zipkin.istio-system.svc.cluster.local
-        port:
-          number: 9411
+    - match:
+        - uri:
+            prefix: /zipkin
+      route:
+        - destination:
+            host: zipkin.istio-system.svc.cluster.local
+            port:
+              number: 9411
 
 --- # api gateway
 apiVersion: networking.istio.io/v1alpha3
@@ -41,66 +41,74 @@ metadata:
   name: belloga-api
 spec:
   hosts:
-  - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
-  - "api.belloga.com" # api endpoint
+    - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
+    - "api.belloga.com" # api endpoint
   #- "*"
   gateways:
-  - belloga-gateway
+    - belloga-gateway
   http:
-  - match:
-    - uri:
-        prefix: /api/user
-    route:
-    - destination:
-        host: user-service
-        port:
-          number: 8080
+    - match:
+        - uri:
+            prefix: /api/user
+      route:
+        - destination:
+            host: user-service
+            port:
+              number: 8080
 
-  - match:
-    - uri:
-        prefix: /api/data
-    - uri:
-        prefix: /api/labeled-data
-    - uri:
-        prefix: /api/labeled-result
-    route:
-    - destination:
-        host: labeling-service
-        port:
-          number: 8080
+    - match:
+        - uri:
+            prefix: /api/data
+        - uri:
+            prefix: /api/labeled-data
+        - uri:
+            prefix: /api/labeled-result
+      route:
+        - destination:
+            host: labeling-service
+            port:
+              number: 8080
 
-  - match:
-    - uri:
-        prefix: /api/account
-    route:
-    - destination:
-        host: auth-service
-        port:
-          number: 8080
+    - match:
+        - uri:
+            prefix: /api/account
+      route:
+        - destination:
+            host: auth-service
+            port:
+              number: 8080
 
-  - match:
-    - uri:
-        prefix: /api/point
-    - uri:
-        prefix: /api/stemp
-    - uri:
-        prefix: /api/temp-point
-    - uri:
-        prefix: /api/gift
-    route:
-    - destination:
-        host: point-service
-        port:
-          number: 8080
+    - match:
+        - uri:
+            prefix: /api/point
+        - uri:
+            prefix: /api/stamp
+        - uri:
+            prefix: /api/temp-point
+        - uri:
+            prefix: /api/gift
+      route:
+        - destination:
+            host: point-service
+            port:
+              number: 8080
 
-  - match:
-    - uri:
-        prefix: /api/raw-data
-    - uri:
-        prefix: /api/project
-    route:
-    - destination:
-        host: raw-data-service
-        port:
-          number: 8080
+    - match:
+        - uri:
+            prefix: /api/cloud-messaging-token
+      route:
+        - destination:
+            host: firebase-service
+            port:
+              number: 8080
 
+    - match:
+        - uri:
+            prefix: /api/raw-data
+        - uri:
+            prefix: /api/project
+      route:
+        - destination:
+            host: raw-data-service
+            port:
+              number: 8080
