@@ -7,8 +7,8 @@ metadata:
     service: labeling-service
 spec:
   ports:
-  - port: 8080
-    name: http
+    - port: 8080
+      name: http
   selector:
     app: labeling-service
 ---
@@ -45,11 +45,11 @@ spec:
     spec:
       serviceAccountName: belloga-labeling-service
       containers:
-      - name: labeling-service
-        image: 023778162658.dkr.ecr.ap-northeast-2.amazonaws.com/belloga-labeling-service:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
-        env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: demo
+        - name: labeling-service
+          image: 023778162658.dkr.ecr.ap-northeast-2.amazonaws.com/belloga-labeling-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: demo

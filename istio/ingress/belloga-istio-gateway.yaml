@@ -14,7 +14,9 @@ spec:
         - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
         - "api.belloga.com" # api endpoint
         - "zipkin.belloga.com"
---- # zipkin용 게이트웨이
+        - "enterprise.belloga.com"
+        - "admin.belloga.com"
+--- # zipkin용 VirtualService
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -34,7 +36,47 @@ spec:
             port:
               number: 9411
 
---- # api gateway
+--- # admin frontend VirtualService
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: belloga-admin-frontend
+spec:
+  hosts:
+    - "admin.belloga.com" # endpoint
+  gateways:
+    - belloga-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: admin-frontend
+            port:
+              number: 3000
+
+--- # enterprise frontend VirtualService
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: belloga-enterprise-frontend
+spec:
+  hosts:
+    - "enterprise.belloga.com" # endpoint
+  gateways:
+    - belloga-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: enterprise-frontend
+            port:
+              number: 3000
+
+--- # api VirtualService
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

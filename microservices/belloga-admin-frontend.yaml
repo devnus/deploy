@@ -1,54 +1,51 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: admin-frontend
   labels:
-    app: auth-service
-    service: auth-service
+    app: admin-frontend
+    service: admin-frontend
 spec:
   ports:
-    - port: 8080
+    - port: 3000
       name: http
   selector:
-    app: auth-service
+    app: admin-frontend
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: belloga-auth-service
+  name: belloga-admin-frontend
   labels:
-    account: auth-service
+    account: admin-frontend
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-service-v1
+  name: admin-frontend-v1
   labels:
-    app: auth-service
+    app: admin-frontend
     version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth-service
+      app: admin-frontend
       version: v1
   template:
     metadata:
       labels:
-        app: auth-service
+        app: admin-frontend
         version: v1
       annotations:
         sidecar.istio.io/inject: "true"
         traffic.sidecar.istio.io/excludeInboundPorts: "9092"
         traffic.sidecar.istio.io/excludeOutboundPorts: "9092"
     spec:
-      serviceAccountName: belloga-auth-service
+      serviceAccountName: belloga-admin-frontend
       containers:
-        - name: auth-service
-          image: 023778162658.dkr.ecr.ap-northeast-2.amazonaws.com/belloga-auth-service:latest
+        - name: admin-frontend
+          image: 023778162658.dkr.ecr.ap-northeast-2.amazonaws.com/belloga-admin-frontend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: local
+            - containerPort: 3000
