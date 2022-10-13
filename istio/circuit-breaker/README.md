@@ -1,6 +1,16 @@
-## [consecutiveErrors]
+# 설정 공식 문서
 
-연속적인 에러가 몇번까지 발생해야 circuit breaker를 동작시킬 것인지 결정
+https://istio.io/latest/docs/reference/config/networking/destination-rule/#DestinationRule
+
+## [consecutive5xxErrors]
+
+host가 connection pool에서 제외되는 5xx 오류 수 (\* 5)
+
+## [consecutiveGatewayErrors]
+
+host가 connection pool에서 제외되는 게이트웨이 오류 수. 502, 503, 504는 Gateway 오류로 판단된다. (\* 0 - disable)
+
+consecutiveGatewayErrors 는 consecutive5xxErrors 에 포함되어져 동작합니다. 그래서 만약 consecutiveGatewayErrors 이 consecutive5xxErrors 의 값 이상으로 설정된다면 consecutiveGatewayErrors 는 효과가 없습니다.
 
 ## [interval]
 
