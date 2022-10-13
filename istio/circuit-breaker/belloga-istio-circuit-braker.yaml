@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: circuit-breaker-for-the-entire-default-namespace
+spec:
+  # host에 모든 서비스에 적용되도록 변경
+  host: "*.default.svc.cluster.local" # This is the name of the k8s service that we're configuring
+
+  trafficPolicy:
+    outlierDetection: # Circuit Breakers HAVE TO BE SWITCHED ON
+      maxEjectionPercent: 100
+      consecutiveErrors: 2
+      interval: 5s
+      baseEjectionTime: 30s
