@@ -10,6 +10,9 @@ spec:
     - "openapi.naver.com"
   location: MESH_EXTERNAL
   ports:
+    - number: 80
+      name: http
+      protocol: HTTP
     - number: 443
       name: tls
       protocol: TLS
@@ -24,9 +27,9 @@ spec:
     - "*.ap-northeast-2.amazonaws.com"
   tls:
     - match:
-      - port: 443
-        sniHosts:
-          - "*.ap-northeast-2.amazonaws.com"
+        - port: 443
+          sniHosts:
+            - "*.ap-northeast-2.amazonaws.com"
       route:
         - destination:
             host: "*.ap-northeast-2.amazonaws.com"
