@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: belloga-preprocessing-v1
+  labels:
+    app: belloga-preprocessing
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: belloga-preprocessing
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: belloga-preprocessing
+        version: v1
+      annotations:
+        sidecar.istio.io/inject: "true"
+        traffic.sidecar.istio.io/excludeInboundPorts: "9092" # 9092 카프카포트는 istio proxy 처리에서 제외하겠다.
+        traffic.sidecar.istio.io/excludeOutboundPorts: "9092"
+
+    spec:
+      containers:
+        - name: belloga-preprocessing
+          image: 023778162658.dkr.ecr.ap-northeast-2.amazonaws.com/belloga-preprocessing:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
