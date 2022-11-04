@@ -7,17 +7,17 @@ spec:
   profile: default
   components:
     egressGateways:
-    - name: istio-egressgateway
-      enabled: true
-      k8s:
-        hpaSpec:
-          minReplicas: 2
+      - name: istio-egressgateway
+        enabled: true
+        k8s:
+          hpaSpec:
+            minReplicas: 2
     ingressGateways:
-    - name: istio-ingressgateway
-      enabled: true
-      k8s:
-        hpaSpec:
-          minReplicas: 2
+      - name: istio-ingressgateway
+        enabled: true
+        k8s:
+          hpaSpec:
+            minReplicas: 2
     pilot:
       enabled: true
       k8s:
@@ -30,7 +30,7 @@ spec:
       istio-ingressgateway:
         serviceAnnotations:
           service.beta.kubernetes.io/aws-load-balancer-type: "nlb" # clb아닌 nlb 사용
-            #service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+          service.beta.kubernetes.io/aws-load-balancer-internal: true # internal로 ingress gateway를 생성한다.
   meshConfig:
     enableTracing: true
     defaultConfig:

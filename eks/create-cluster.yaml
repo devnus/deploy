@@ -1,0 +1,16 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: "belloga-prod-eksctl-cluster"
+  region: ap-northeast-2
+  version: "1.22"
+
+vpc:
+  subnets:
+    public:
+      ap-northeast-2a: { id: "subnet-0559cfaf195f67747" }
+      ap-northeast-2c: { id: "subnet-004869b8c85c38839" }
+    private:
+      ap-northeast-2a: { id: "subnet-0c91dd5559e481443" }
+      ap-northeast-2c: { id: "subnet-03a9dfcf676cf2cc5" }

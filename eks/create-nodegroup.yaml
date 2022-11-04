@@ -1,0 +1,62 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: "belloga-prod-eksctl-cluster"
+  region: ap-northeast-2
+
+vpc:
+  id: "vpc-00f39ba1bfb3ed3de"
+  # (optional, must match VPC ID used for each subnet below)
+
+  #cidr: "10.144.0.0/16"
+  # (optional, must match CIDR used by the given VPC)
+
+  subnets:
+    # must provide 'private' and/or 'public' subnets by availibility zone as shown
+
+    ### public
+    public:
+      public-a:
+        id: "subnet-0559cfaf195f67747"
+        #cidr: "10.144.10.0/24"
+        # (optional, must match CIDR used by the given subnet)
+      public-c:
+        id: "subnet-004869b8c85c38839"
+        #cidr: "10.144.20.0/24"
+        # (optional, must match CIDR used by the given subnet)
+
+    ### private
+    private:
+      private-a:
+        id: "subnet-0c91dd5559e481443"
+        #cidr: "10.144.152.0/25"
+        # (optional, must match CIDR used by the given subnet)
+
+      private-c:
+        id: "subnet-03a9dfcf676cf2cc5"
+        #cidr: "10.144.152.128/25"
+        # (optional, must match CIDR used by the given subnet)
+
+managedNodeGroups:
+  - name: BELLOGA-NODE-1 # 노드그룹은 여러개 존재 가능, -name: ~~
+    instanceType: t3.medium # 클러스터 워커 노드의 인스턴스 타입
+    desiredCapacity: 2 # 클러스터 워커 노드의 갯수
+    minSize: 2
+    maxSize: 2
+    volumeSize: 10 # 클러스터 워커 노드의 EBS 용량 (단위: GiB)
+    labels: { nodegroup-type: BELLOGA-NODE-1 }
+    privateNetworking: true
+    subnets: # 적용하고자하는 서브넷 이렇게 지정
+      - private-a
+      - private-c
+    tags:
+      nodegroup: BELLOGA-NODE-1
+    iam:
+      withAddonPolicies:
+        externalDNS: true
+        certManager: true
+        imageBuilder: true # Amazon ECR에 대한 권한 추가
+        albIngress: true # albIngress에 대한 권한 추가
+        cloudWatch: true # cloudWatch에 대한 권한 추가
+        autoScaler: true # auto scaling에 대한 권한 추가
