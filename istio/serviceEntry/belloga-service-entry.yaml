@@ -7,6 +7,7 @@ metadata:
 spec:
   hosts:
     - "*.ap-northeast-2.amazonaws.com"
+    - "*.ap-northeast-2.rds.amazonaws.com"
     - "openapi.naver.com"
     - "*.google.com"
   location: MESH_EXTERNAL
