@@ -39,8 +39,8 @@ spec:
         version: v1
       annotations:
         sidecar.istio.io/inject: "true"
-        traffic.sidecar.istio.io/excludeInboundPorts: "9092"
-        traffic.sidecar.istio.io/excludeOutboundPorts: "9092"
+        traffic.sidecar.istio.io/excludeInboundPorts: "9092,3306"
+        traffic.sidecar.istio.io/excludeOutboundPorts: "9092,3306"
     spec:
       serviceAccountName: belloga-auth-service
       containers:

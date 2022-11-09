@@ -26,14 +26,14 @@ metadata:
   name: external-star-aws-services-https
 spec:
   hosts:
-    - "*.ap-northeast-2.amazonaws.com"
+    - "*.amazonaws.com"
   tls:
     - match:
         - port: 443
           sniHosts:
-            - "*.ap-northeast-2.amazonaws.com"
+            - "*.amazonaws.com"
       route:
         - destination:
-            host: "*.ap-northeast-2.amazonaws.com"
+            host: "*.amazonaws.com"
             port:
               number: 443
