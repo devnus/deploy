@@ -6,8 +6,7 @@ metadata:
   name: external-star-aws-services-https
 spec:
   hosts:
-    - "*.ap-northeast-2.amazonaws.com"
-    - "*.ap-northeast-2.rds.amazonaws.com"
+    - "*.amazonaws.com"
     - "openapi.naver.com"
     - "*.google.com"
   location: MESH_EXTERNAL
