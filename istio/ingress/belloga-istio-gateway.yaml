@@ -11,7 +11,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
+        - "a30441bfef8e841bbb077a6236568237-f31a6266d697c1cb.elb.ap-northeast-2.amazonaws.com"
         - "api.belloga.com" # api endpoint
         - "zipkin.belloga.com"
         - "enterprise.belloga.com"
@@ -83,7 +83,7 @@ metadata:
   name: belloga-api
 spec:
   hosts:
-    - "a42e30416f79f4cbc9bb75a1a0e132ed-738c4e9a914338da.elb.ap-northeast-2.amazonaws.com"
+    - "a30441bfef8e841bbb077a6236568237-f31a6266d697c1cb.elb.ap-northeast-2.amazonaws.com"
     - "api.belloga.com" # api endpoint
   #- "*"
   gateways:
