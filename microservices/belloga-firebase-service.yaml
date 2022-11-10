@@ -39,8 +39,8 @@ spec:
         version: v1
       annotations:
         sidecar.istio.io/inject: "true"
-        traffic.sidecar.istio.io/excludeInboundPorts: "9092,3306" # 9092 카프카포트는 istio proxy 처리에서 제외하겠다.
-        traffic.sidecar.istio.io/excludeOutboundPorts: "9092,3306"
+        traffic.sidecar.istio.io/excludeInboundPorts: "9092,3306,6379" # 9092 카프카포트는 istio proxy 처리에서 제외하겠다.
+        traffic.sidecar.istio.io/excludeOutboundPorts: "9092,3306,6379"
     spec:
       serviceAccountName: belloga-firebase-service
       containers:
