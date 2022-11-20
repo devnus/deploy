@@ -10,6 +10,7 @@ spec:
     - "openapi.naver.com"
     - "*.google.com"
   location: MESH_EXTERNAL
+  resolution: DNS
   ports:
     - number: 80
       name: http
